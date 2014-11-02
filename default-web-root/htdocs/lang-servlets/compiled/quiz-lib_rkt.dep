@@ -1,0 +1,1 @@
+("6.1" ("84fc790126565c6b247d441b105e3f5a159f1357" . "7ee1db7a34189dd0e9072de9d7c44e2b3427ade9") (collects #"net" #"url.rkt") (collects #"racket" #"runtime-config.rkt") (collects #"racket" #"serialize.rkt") (collects #"web-server" #"http.rkt") (collects #"racket" #"base.rkt"))

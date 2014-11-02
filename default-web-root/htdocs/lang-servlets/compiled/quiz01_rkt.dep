@@ -1,0 +1,1 @@
+("6.1" ("f76b1f54cac1c5fdd0f51b93772689669c81effd" . "cc4372d8f5c51e15d37249468ae29f12ea4b6e5e") (collects #"racket" #"runtime-config.rkt") (collects #"web-server" #"default-web-root" #"htdocs" #"lang-servlets" #"quiz-lib.rkt") (collects #"web-server" #"lang.rkt") (collects #"web-server" #"lang" #"lang-api.rkt") (collects #"web-server" #"lang" #"reader.rkt"))
