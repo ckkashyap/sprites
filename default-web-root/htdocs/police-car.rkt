@@ -2,10 +2,10 @@
 
 (require racket/draw)
 
-(define sprite-width 100)
-(define sprite-height 100)
-(define sprites-in-a-row 2)
-(define sprites-in-a-col 5)
+(define sprite-width 50)
+(define sprite-height 50)
+(define sprites-in-a-row 3)
+(define sprites-in-a-col 6)
 
 (define (ninety-percent-of x) (* x 0.9))
 (define (eighty-percent-of x) (* x 0.8))
