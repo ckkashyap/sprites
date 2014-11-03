@@ -17,17 +17,20 @@
 (define (thirty-percent-of x) (* x 0.3))
 (define (twenty-percent-of x) (* x 0.2))
 (define (ten-percent-of x) (* x 0.1))
+(define (five-percent-of x) (* x 0.05))
 (define (half-of x) (/ x 2))
 
-(define car-body-width (half-of sprite-width))
-(define car-body-height (thirty-percent-of sprite-height))
+;(define car-body-width (half-of sprite-width))
+(define car-body-width 50)
+(define car-body-height (half-of car-body-width))
 (define car-body-x (half-of (- sprite-width car-body-width)))
 (define car-body-y (half-of sprite-height))
 
 (define my-color-car-front (make-object color% 150 150 150 1))
+(define my-color-car-wind-sheild (make-object color% 200 200 140 1))
 (define no-brush (new brush% [style 'transparent]))
 (define blue-brush (new brush% [color "blue"]))
-(define yellow-brush (new brush% [color "yellow"]))
+(define yellow-brush (new brush% [color my-color-car-wind-sheild]))
 (define black-brush (new brush% [color my-color-car-front] [ style 'cross-hatch ]))
 
 (define lambda-point-map (lambda (p) (make-object point% (car p) (cadr p) )) )
@@ -89,16 +92,38 @@
             (send image-dc set-brush yellow-brush)
             (send image-dc draw-polygon car-top-polygon)
             
-
+            
             (send image-dc set-brush blue-brush)
             (send image-dc draw-polygon car-bonut-polygon)
-
+            
             
             (send image-dc set-brush black-brush)
             (send image-dc draw-polygon car-front-polygon)
             
+            (let* (
+                  [light-x1 (+ car-body-x (twenty-percent-of car-body-width))]
+                  [light-y (- car-body-y (seventy-percent-of car-body-height))]
+                  [light-width (twenty-percent-of car-body-width)]
+                  [light-height (ten-percent-of car-body-width)]
+                  
+                  [light-x2 (+ light-x1 light-width)]
+                  [light-x3 (+ light-x2 light-width)]
+                  
+                  )
+              (send image-dc draw-rounded-rectangle  light-x1  light-y light-width light-height )
+              (send image-dc draw-rounded-rectangle  light-x2  light-y light-width light-height )
+              (send image-dc draw-rounded-rectangle  light-x3  light-y light-width light-height )
+              
+              )
+            
+            
+            
+            
             (send image-dc set-brush no-brush)            
             (send image-dc set-transformation current-transformation)
+            
+            
+            
             
             )
           )
