@@ -24,27 +24,41 @@
 (define car-body-x (half-of (- sprite-width car-body-width)))
 (define car-body-y (half-of sprite-height))
 
+(define my-color-car-front (make-object color% 150 150 150 1))
+(define no-brush (new brush% [style 'transparent]))
+(define blue-brush (new brush% [color "blue"]))
+(define yellow-brush (new brush% [color "yellow"]))
+(define black-brush (new brush% [color my-color-car-front] [ style 'cross-hatch ]))
 
-(define car-bonut-polygon (map (lambda (p) (make-object point% (car p) (cadr p) )) 
+(define lambda-point-map (lambda (p) (make-object point% (car p) (cadr p) )) )
+
+(define car-bonut-polygon (map lambda-point-map
                                (list 
                                 (list car-body-x car-body-y)
                                 (list (+ car-body-x car-body-width) car-body-y)
-                                (list (+ car-body-x car-body-width (twenty-percent-of car-body-width)) (+ car-body-y 20))
-                                (list (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y 20))
-                                
-                                
-                                
-                                
+                                (list (+ car-body-x car-body-width (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)))
+                                (list (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)))
                                 )))
 
 
-(define car-top-polygon (map (lambda (p) (make-object point% (car p) (cadr p) )) 
+(define car-top-polygon (map lambda-point-map
                              (list 
                               (list car-body-x car-body-y)
-                              (list (+ car-body-x (twenty-percent-of car-body-width)) (- car-body-y (half-of car-body-height)))
-                              (list (+ car-body-x (eighty-percent-of car-body-width)) (- car-body-y (half-of car-body-height)))
+                              (list (+ car-body-x (ten-percent-of car-body-width)) (- car-body-y (half-of car-body-height)))
+                              (list (+ car-body-x (ninety-percent-of car-body-width)) (- car-body-y (half-of car-body-height)))
                               (list (+ car-body-x car-body-width) car-body-y)
                               )))
+
+(define car-front-polygon (map lambda-point-map
+                               (list
+                                (list (+ car-body-x car-body-width (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)))
+                                (list (+ car-body-x car-body-width (twenty-percent-of car-body-width)) (+ car-body-y (sixty-percent-of car-body-width)))
+                                
+                                (list (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (sixty-percent-of car-body-width)))                                
+                                (list (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)))                                
+                                
+                                )))
+
 
 (define bitmap-width (* sprites-in-a-col sprite-width))
 (define bitmap-height (* sprites-in-a-row sprite-height))
@@ -72,11 +86,18 @@
             (send image-dc translate tran-x tran-y)
             (send image-dc rotate rot-val)
             
-            ;(send image-dc draw-rounded-rectangle car-body-x car-body-y car-body-width car-body-height )
+            (send image-dc set-brush yellow-brush)
             (send image-dc draw-polygon car-top-polygon)
+            
+
+            (send image-dc set-brush blue-brush)
             (send image-dc draw-polygon car-bonut-polygon)
+
             
+            (send image-dc set-brush black-brush)
+            (send image-dc draw-polygon car-front-polygon)
             
+            (send image-dc set-brush no-brush)            
             (send image-dc set-transformation current-transformation)
             
             )
