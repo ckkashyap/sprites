@@ -27,7 +27,21 @@
 (define car-body-y (half-of sprite-height))
 
 (define my-color-car-front (make-object color% 150 150 150 1))
+(define my-color-car-front (make-object color% 150 150 150 1))
 (define my-color-car-wind-sheild (make-object color% 200 200 140 1))
+
+(define red-light-brush (new brush%
+         [gradient
+          (new linear-gradient%
+               [x0 0]
+               [y0 200]
+               [x1 200]
+               [y1 0]
+               [stops
+                (list (list 0   (make-object color% 255 0 0))
+                      (list 0.5 (make-object color% 0 255 0))
+                      (list 1   (make-object color% 0 0 255)))])]))
+
 (define no-brush (new brush% [style 'transparent]))
 (define blue-brush (new brush% [color "blue"]))
 (define yellow-brush (new brush% [color my-color-car-wind-sheild]))
@@ -110,6 +124,8 @@
                   [light-x3 (+ light-x2 light-width)]
                   
                   )
+              
+                         (send image-dc set-brush light-red)
               (send image-dc draw-rounded-rectangle  light-x1  light-y light-width light-height )
               (send image-dc draw-rounded-rectangle  light-x2  light-y light-width light-height )
               (send image-dc draw-rounded-rectangle  light-x3  light-y light-width light-height )
