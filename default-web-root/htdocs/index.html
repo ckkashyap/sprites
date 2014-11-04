@@ -30,9 +30,9 @@
 		console.log("handleComplete");
 
 		var data = {
-			images: ["box.png"],
+			images: ["car.png"],
 			frames: {width:100, height:100},
-			animations: {rot:[0,15, "rot", 0.2]}
+			animations: {rot:[0,1, "rot", 0.05]}
 			
 		};
 
@@ -41,10 +41,10 @@
 		spritesheet = new createjs.SpriteSheet(data);
 		bell = new createjs.Sprite(spritesheet, "rot");
 		bell.x = 50;
-		bell.y = 100;
+		bell.y = 10;
 
 
-		createjs.Tween.get(bell, {loop:true}).to({x:400}, 3000).to({x:50}, 3000);
+		createjs.Tween.get(bell, {loop:true}).to({y:100}, 3000).to({y:10}, 3000);
 		createjs.Ticker.addEventListener("tick", tick);
 		createjs.Ticker.setFPS(60);
 

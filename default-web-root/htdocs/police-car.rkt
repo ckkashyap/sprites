@@ -7,13 +7,14 @@
 
 (define sprite-width 100)
 (define sprite-height 100)
-(define sprites-in-a-row 3)
-(define sprites-in-a-col 6)
+(define sprites-in-a-row 1)
+(define sprites-in-a-col 2)
 
 (define (ninety-percent-of x) (* x 0.9))
 (define (eighty-percent-of x) (* x 0.8))
 (define (seventy-percent-of x) (* x 0.7))
-(define (sixty-percent-of x) (* x 0.7))
+(define (sixty-percent-of x) (* x 0.6))
+(define (forty-percent-of x) (* x 0.4))
 (define (thirty-percent-of x) (* x 0.3))
 (define (twenty-percent-of x) (* x 0.2))
 (define (ten-percent-of x) (* x 0.1))
@@ -27,23 +28,24 @@
 (define car-body-y (half-of sprite-height))
 
 (define my-color-car-front (make-object color% 150 150 150 1))
-(define my-color-car-front (make-object color% 150 150 150 1))
+;(define my-color-car-front (make-object color% 150 150 150 1))
 (define my-color-car-wind-sheild (make-object color% 200 200 140 1))
 
 (define red-light-brush (new brush%
-         [gradient
-          (new linear-gradient%
-               [x0 0]
-               [y0 200]
-               [x1 200]
-               [y1 0]
-               [stops
-                (list (list 0   (make-object color% 255 0 0))
-                      (list 0.5 (make-object color% 0 255 0))
-                      (list 1   (make-object color% 0 0 255)))])]))
+                             [gradient
+                              (new linear-gradient%
+                                   [x0 0]
+                                   [y0 200]
+                                   [x1 20]
+                                   [y1 0]
+                                   [stops
+                                    (list (list 0   (make-object color% 255 0 0))
+                                          (list 0.5 (make-object color% 0 255 0))
+                                          (list 1   (make-object color% 0 0 255)))])]))
 
 (define no-brush (new brush% [style 'transparent]))
 (define blue-brush (new brush% [color "blue"]))
+(define white-brush (new brush% [color "white"]))
 (define yellow-brush (new brush% [color my-color-car-wind-sheild]))
 (define black-brush (new brush% [color my-color-car-front] [ style 'cross-hatch ]))
 
@@ -68,11 +70,11 @@
 
 (define car-front-polygon (map lambda-point-map
                                (list
-                                (list (+ car-body-x car-body-width (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)))
-                                (list (+ car-body-x car-body-width (twenty-percent-of car-body-width)) (+ car-body-y (sixty-percent-of car-body-width)))
+                                (list (+ car-body-x car-body-width ) (+ car-body-y (half-of car-body-width)))
+                                (list (+ car-body-x car-body-width ) (+ car-body-y (sixty-percent-of car-body-width)))
                                 
-                                (list (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (sixty-percent-of car-body-width)))                                
-                                (list (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)))                                
+                                (list car-body-x (+ car-body-y (sixty-percent-of car-body-width)))                                
+                                (list car-body-x (+ car-body-y (half-of car-body-width)))                                
                                 
                                 )))
 
@@ -80,10 +82,10 @@
 (define bitmap-width (* sprites-in-a-col sprite-width))
 (define bitmap-height (* sprites-in-a-row sprite-height))
 
-;(define target (make-bitmap bitmap-width bitmap-height)) 
-;(define image-dc (new bitmap-dc% [bitmap target]))
+(define target (make-bitmap bitmap-width bitmap-height)) 
+(define image-dc (new bitmap-dc% [bitmap target]))
 
-(dc (lambda (image-dc x y) 
+;(dc (lambda (image-dc x y) 
       
       
       (send image-dc set-brush "green" 'transparent)
@@ -110,22 +112,45 @@
             (send image-dc set-brush blue-brush)
             (send image-dc draw-polygon car-bonut-polygon)
             
+            (send image-dc set-brush white-brush)
+            (send image-dc draw-rectangle (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (half-of car-body-width)) (twenty-percent-of car-body-width) (ten-percent-of car-body-width))
+            (send image-dc draw-rectangle (- car-body-x (twenty-percent-of car-body-width)) (+ car-body-y (sixty-percent-of car-body-width)) (twenty-percent-of car-body-width) (ten-percent-of car-body-width))
+            (send image-dc draw-rectangle (+ car-body-x car-body-width ) (+ car-body-y (half-of car-body-width)) (twenty-percent-of car-body-width) (ten-percent-of car-body-width))
+            (send image-dc draw-rectangle (+ car-body-x car-body-width ) (+ car-body-y (sixty-percent-of car-body-width)) (twenty-percent-of car-body-width) (ten-percent-of car-body-width))
+            
             
             (send image-dc set-brush black-brush)
             (send image-dc draw-polygon car-front-polygon)
+
             
             (let* (
-                  [light-x1 (+ car-body-x (twenty-percent-of car-body-width))]
-                  [light-y (- car-body-y (seventy-percent-of car-body-height))]
-                  [light-width (twenty-percent-of car-body-width)]
-                  [light-height (ten-percent-of car-body-width)]
-                  
-                  [light-x2 (+ light-x1 light-width)]
-                  [light-x3 (+ light-x2 light-width)]
-                  
-                  )
+                   [light-x1 (+ car-body-x (twenty-percent-of car-body-width))]
+                   [light-y (- car-body-y (seventy-percent-of car-body-height))]
+                   [light-width (twenty-percent-of car-body-width)]
+                   [light-height (ten-percent-of car-body-width)]
+                   
+                   [color1 (if (odd? (+ row col)) (make-object color% 255 0 0) (make-object color% 0 0 255)) ]
+                   [color2 (make-object color% 255 255 255)]
+                   [color3 (if (even? (+ row col)) (make-object color% 255 0 0) (make-object color% 0 0 255)) ]
+                   
+                   [light-x2 (+ light-x1 light-width)]
+                   [light-x3 (+ light-x2 light-width)]
+                   [red-light-brush (new brush%
+                                         [gradient
+                                          (new linear-gradient%
+                                               [x0 light-x1]
+                                               [y0 light-y]
+                                               [x1 (+ light-x3 light-width)]
+                                               [y1 (+ light-y light-height)]
+                                               [stops
+                                                (list (list 0   color1)
+                                                      (list 0.5 color2)
+                                                      (list 1   color3))])])
+                                    ]
+                   )
               
-                         (send image-dc set-brush light-red)
+              
+              (send image-dc set-brush red-light-brush)
               (send image-dc draw-rounded-rectangle  light-x1  light-y light-width light-height )
               (send image-dc draw-rounded-rectangle  light-x2  light-y light-width light-height )
               (send image-dc draw-rounded-rectangle  light-x3  light-y light-width light-height )
@@ -145,5 +170,5 @@
           )
         )
       
-      ) 300 200 )
-;(send target save-file "car.png" 'png)
+;      ) 400 400 )
+(send target save-file "car.png" 'png)
