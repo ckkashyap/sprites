@@ -21,7 +21,7 @@
        (file-base-connection-timeout 30))
      (paths
       (configuration-root "conf")
-      (host-root "/home/ckk/Documents/sprites/default-web-root")
+      (host-root "/home/kashyap/sprites/default-web-root")
       (log-file-path "log")
       (file-root "htdocs")
       (servlet-root ".")
